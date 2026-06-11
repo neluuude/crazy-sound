@@ -1,5 +1,5 @@
 <template>
-    <div class="music">
+    <div @click="expandReleasePag" class="music">
         <img :src="img" />
         <span class="release-type">{{ type }}</span>
         <span class="release-artist">{{ artist }}</span>
@@ -10,7 +10,21 @@
 </template>
 
 <script setup>
-defineProps(['type', 'artist', 'name', 'genre', 'year', 'img'])
+const props = defineProps({
+    type: String,
+    artist: String,
+    name: String,
+    genre: String,
+    year: String,
+    img: String,
+    idex: Number
+})
+
+const emit = defineEmits(['expandReleasePage'])
+
+function expandReleasePag() {
+    emit('expandReleasePage', props.idex)
+}
 </script>
 
 <style scoped>

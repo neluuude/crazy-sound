@@ -1,5 +1,6 @@
 <script setup>
-import ReleaseCard from './components/ReleaseCard.vue';
+import { computed, ref } from 'vue'
+import ReleaseCard from './components/ReleaseCard.vue'
 import ReleasePageWrap from './components/ReleasePageWrap.vue'
 
 const releaseArr = [
@@ -31,9 +32,22 @@ const releaseArr = [
   },
 ]
 
+const fuck = ref('0')
+const selectedReleaseData = computed(() => {
+  return releaseArr.find((release) => release.idex == fuck.value)
+})
+const isReleaseOpen = ref(false)
+
 //закрываем кукис
 function closeCookies() {
   modal.classList.add('disabled')
+}
+
+function switchReleasePage(idex) {
+  isReleaseOpen.value = !isReleaseOpen.value
+  if (idex != undefined) {
+    fuck.value = idex
+  }
 }
 </script>
 
@@ -120,7 +134,8 @@ function closeCookies() {
       <div class="release-wrap">
         <!-- ТУТ ВЫВОДЯТСЯ КАРТОЧКИ РЕЛИЗОВ!!! ДЛЯ ОСОБО УМНЫХ!!!! МЫ ПИСАЛИ ТУТ ОДНУ, ПОТОМ УДАЛИЛИ!!!-->
         <ReleaseCard v-for="release in releaseArr" :type="release.type" :artist="release.artist" :genre="release.genre"
-          :year="release.year" :img="release.img_src" :name="release.name" />
+          :year="release.year" :img="release.img_src" :name="release.name" :idex="release.idex"
+          @expand-release-page="switchReleasePage" />
       </div>
     </section>
   </main>
@@ -137,7 +152,11 @@ function closeCookies() {
     </div>
   </div>
 
-  <ReleasePageWrap></ReleasePageWrap>
+  <ReleasePageWrap v-if="isReleaseOpen" @close-release-page="switchReleasePage" :type="selectedReleaseData.type"
+    :artist="selectedReleaseData.artist" :genre="selectedReleaseData.genre" :year="selectedReleaseData.year"
+    :img="selectedReleaseData.img_src" :name="selectedReleaseData.name" :description="selectedReleaseData.description"
+    :tracklist="selectedReleaseData.tracklist">
+  </ReleasePageWrap>
   <footer>
     <div class="about">
       <nav>

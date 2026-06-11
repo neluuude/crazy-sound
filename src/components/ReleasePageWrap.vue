@@ -2,39 +2,44 @@
   <div class="release-page-wrap">
     <section class="release-page">
       <div class="golova">
-        <h2 class="release-page-imya">Название релиза</h2>
-        <button class="release-page-close">x</button>
+        <h2 class="release-page-imya">{{ name }}</h2>
+        <button @click="closeReleasePage" class="release-page-close">x</button>
       </div>
 
       <div class="release-page-all">
-        <img
-          src="https://cdn-images.dzcdn.net/images/cover/ee18a74cbf47b045ea28937129735ecc/500x500.jpg"
-          alt=""
-        />
+        <img :src="img" alt="" />
         <div class="release-page-text">
           <p class="release-page-description">
-            Описание аля этот релиз был выпущен ахуеть какими крутыми чуваками, экспериментируют итд
-            итп. На релизе кроме ребят засветился чувак, а кроме него ещё и гости были, но молодцы
-            все респект хотя бы за старания.
+            {{ description }}
           </p>
           <div class="release-page-info">
-            <span class="release-page-type"> Album </span>
+            <span class="release-page-type"> {{ type }} </span>
             <span class="release-page-artist">
-              <a href="">Grim Salvo</a>
+              <a href="">{{ artist }}</a>
             </span>
             <span class="release-page-genre">
-              <a href="">Shadow Rap</a>
+              <a href="">{{ genre }}</a>
             </span>
-            <span class="release-page-year"> 2024 </span>
+            <span class="release-page-year"> {{ year }} </span>
           </div>
         </div>
       </div>
-      <div class="release-page-tracklist"></div>
+      <div class="release-page-tracklist">
+        <a v-for="value in tracklist">{{ value }}</a>
+      </div>
     </section>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+defineProps(['type', 'artist', 'name', 'genre', 'year', 'img', 'idex', 'tracklist', 'description'])
+
+const emit = defineEmits(['closeReleasePage'])
+
+function closeReleasePage() {
+  emit('closeReleasePage')
+}
+</script>
 
 <style scoped>
 .release-page-wrap {
@@ -101,7 +106,7 @@
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
-  font-size: 30px;
+  font-size: 15px;
 }
 
 .release-page-info {
