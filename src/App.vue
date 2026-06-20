@@ -1,47 +1,35 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import ReleaseCard from './components/ReleaseCard.vue'
 import ReleasePageWrap from './components/ReleasePageWrap.vue'
 
-const releaseArr = [
-  {
-    img_src:
-      'https://cdn-images.dzcdn.net/images/cover/ee18a74cbf47b045ea28937129735ecc/500x500.jpg',
-    type: 'album',
-    artist: 'Grim Salvo',
-    name: 'VOIDSTAR',
-    genre: 'Shadow Rap',
-    year: '2024',
-    description:
-      '25 июля 2024 года состоялся релиз совместного альбома Grim Salvo и Witchouse 40k под названием VOIDST★R - масштабного 12-трекового проекта, над которым артисты работали с 2020 года. Концепция альбома строится вокруг символики пустоты, мистики и архаичных образов - от названия (VOIDSTAR - «звезда пустоты») до отсылок в треках (например, «BAPHOMET» отсылает к оккультной иконографии).',
-    tracklist: ['Beyond the Scarlet Curtain', 'THE GIVER', 'Blessed is the Swarm', 'QUEEN LEECH'],
-    idex: 0,
-  },
-  {
-    img_src:
-      'https://sun9-47.userapi.com/s/v1/ig2/myrpRbTWO-2pcKjHO3S1HWSYDN_gqo1RzTHVxorAi_JxUJU5BIxVegO9cR6X0L74JLLkkprRr7Bo473K30XNEl8G.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1200x1200&from=bu&u=U-_9a3C-HdfF9-3Uu5ebXRnCHf0sQPCXVccBnqc8Lhw&cs=1200x0',
-    type: 'single',
-    artist: 'GODHANDUSA',
-    name: 'IGNORANCE IS BLISS',
-    genre: 'Hip-Hop',
-    year: '2025',
-    description:
-      'Дуэт GODHANDUSA (GONDA и MONGO) представил новый микстейп Ignorance Is Bliss (The Mixtape) - продолжение творческой линии после успешной трилогии GODHAND. Релиз вышел 30 июля 2025 года на лейбле Eye and Hand Society. Проект демонстрирует фирменный подход артистов к музыке: загадочность, символизм и смешение жанров. Исполнители сознательно выстраивают образ вокруг анонимности - скрывают лица и искажают голоса в записях, что добавляет релизу особую атмосферу.',
-    tracklist: ['AMBULANCE', 'YOU ALREADY KNOW', 'WHAT IT IS HOE?!', 'ASSHOLE'],
-    idex: 1,
-  },
-]
+const releaseArr = ref([])
+const newsArr = ref([])
 
 const fuck = ref('0')
 const selectedReleaseData = computed(() => {
-  return releaseArr.find((release) => release.idex == fuck.value)
+  return releaseArr.value.find((release) => release.idex == fuck.value)
 })
 const isReleaseOpen = ref(false)
 
-//закрываем кукис
-function closeCookies() {
-  modal.classList.add('disabled')
+const fetchAlbums = () => {
+  fetch('http://localhost:8000/albums')
+    .then(response => response.json())
+    .then(data => releaseArr.value = data)
+    .catch(error => console.log(error.message))
 }
+
+function fetchNews() {
+  fetch('http://localhost:8000/news')
+    .then(response => response.json())
+    .then(data => newsArr.value = data)
+    .catch(error => console.log(error.message))
+}
+
+//закрываем кукис
+// function closeCookies() {
+//   modal.classList.add('disabled')
+// }
 
 function switchReleasePage(idex) {
   isReleaseOpen.value = !isReleaseOpen.value
@@ -49,6 +37,13 @@ function switchReleasePage(idex) {
     fuck.value = idex
   }
 }
+
+onMounted(() => {
+  fetchAlbums()
+  fetchNews()
+  //sendAuthData()
+})
+
 </script>
 
 <template>
@@ -67,7 +62,7 @@ function switchReleasePage(idex) {
     <input type="text" class="header-search" placeholder="Поиск..." />
     <div class="header-search-results"></div>
     <div class="actions">
-      <button class="vxod" @click="">войти</button>
+      <button class="vxod">войти</button>
       <a href="" class="account-name"></a>
     </div>
   </header>
@@ -87,46 +82,23 @@ function switchReleasePage(idex) {
 
     <section class="news">
       <h2>НОВОСТИ</h2>
-      <div class="click-bait">
-        <h3>ВЫ НЕ ПОВЕРИТЕ САМОЕ ОЖИДАЕМОЕ СОБЫТИЕ НАСТУПИЛО</h3>
-        <p>
-          Неожиданно: Канье Уэст и Баста записывают совместный трек! Фанаты в шоке: что стоит за
-          этим неожиданным дуэтом?
-        </p>
-      </div>
+      <template v-for="news in newsArr.filter(news => news.clickbait == true)" :key="news.idex">
+        <div class="click-bait">
+          <h3>{{ news.header }}</h3>
+          <p>
+            {{ news.text }}, {{ news.date }}
+          </p>
+        </div>
+      </template>
       <div class="sub-news">
-        <div class="novosti">
-          <h3>новость 2</h3>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas, numquam! Voluptatem
-            optio labore officia aut nihil suscipit non fugiat nulla ratione illo voluptate, facere
-            quae! Consectetur debitis nemo ratione sint.
-          </p>
-        </div>
-        <div class="novosti">
-          <h3>новость 3</h3>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas, numquam! Voluptatem
-            optio labore officia aut nihil suscipit non fugiat nulla ratione illo voluptate, facere
-            quae! Consectetur debitis nemo ratione sint.
-          </p>
-        </div>
-        <div class="novosti">
-          <h3>новость 4</h3>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas, numquam! Voluptatem
-            optio labore officia aut nihil suscipit non fugiat nulla ratione illo voluptate, facere
-            quae! Consectetur debitis nemo ratione sint.
-          </p>
-        </div>
-        <div class="novosti">
-          <h3>новость 5</h3>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas, numquam! Voluptatem
-            optio labore officia aut nihil suscipit non fugiat nulla ratione illo voluptate, facere
-            quae! Consectetur debitis nemo ratione sint.
-          </p>
-        </div>
+        <template v-for="news in newsArr.filter(news => news.clickbait != true)" :key="news.idex">
+          <div class="novosti">
+            <h3>{{ news.header }}</h3>
+            <p>
+              {{ news.text }}, {{ news.date }}
+            </p>
+          </div>
+        </template>
       </div>
     </section>
     <section class="releases">
@@ -135,7 +107,7 @@ function switchReleasePage(idex) {
         <!-- ТУТ ВЫВОДЯТСЯ КАРТОЧКИ РЕЛИЗОВ!!! ДЛЯ ОСОБО УМНЫХ!!!! МЫ ПИСАЛИ ТУТ ОДНУ, ПОТОМ УДАЛИЛИ!!!-->
         <ReleaseCard v-for="release in releaseArr" :type="release.type" :artist="release.artist" :genre="release.genre"
           :year="release.year" :img="release.img_src" :name="release.name" :idex="release.idex"
-          @expand-release-page="switchReleasePage" />
+          @expand-release-page="switchReleasePage" :key="release.idex" />
       </div>
     </section>
   </main>

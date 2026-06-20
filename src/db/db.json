@@ -1,0 +1,63 @@
+{
+  "albums": [
+    {
+      "img_src": "https://cdn-images.dzcdn.net/images/cover/ee18a74cbf47b045ea28937129735ecc/500x500.jpg",
+      "type": "album",
+      "artist": "Grim Salvo",
+      "name": "VOIDSTAR",
+      "genre": "Shadow Rap",
+      "year": "2024",
+      "description": "25 июля 2024 года состоялся релиз совместного альбома Grim Salvo и Witchouse 40k под названием VOIDST★R - масштабного 12-трекового проекта, над которым артисты работали с 2020 года. Концепция альбома строится вокруг символики пустоты, мистики и архаичных образов - от названия (VOIDSTAR - «звезда пустоты») до отсылок в треках (например, «BAPHOMET» отсылает к оккультной иконографии).",
+      "tracklist": [
+        "Beyond the Scarlet Curtain",
+        "THE GIVER",
+        "Blessed is the Swarm",
+        "QUEEN LEECH"
+      ],
+      "idex": 0,
+      "id": "RsChPmGIgCI"
+    },
+    {
+      "img_src": "https://sun9-47.userapi.com/s/v1/ig2/myrpRbTWO-2pcKjHO3S1HWSYDN_gqo1RzTHVxorAi_JxUJU5BIxVegO9cR6X0L74JLLkkprRr7Bo473K30XNEl8G.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1200x1200&from=bu&u=U-_9a3C-HdfF9-3Uu5ebXRnCHf0sQPCXVccBnqc8Lhw&cs=1200x0",
+      "type": "single",
+      "artist": "GODHANDUSA",
+      "name": "IGNORANCE IS BLISS",
+      "genre": "Hip-Hop",
+      "year": "2025",
+      "description": "Дуэт GODHANDUSA (GONDA и MONGO) представил новый микстейп Ignorance Is Bliss (The Mixtape) - продолжение творческой линии после успешной трилогии GODHAND. Релиз вышел 30 июля 2025 года на лейбле Eye and Hand Society. Проект демонстрирует фирменный подход артистов к музыке: загадочность, символизм и смешение жанров. Исполнители сознательно выстраивают образ вокруг анонимности - скрывают лица и искажают голоса в записях, что добавляет релизу особую атмосферу.",
+      "tracklist": ["AMBULANCE", "YOU ALREADY KNOW", "WHAT IT IS HOE?!", "ASSHOLE"],
+      "idex": 1,
+      "id": "S9Jzw6bjJUU"
+    },
+    {
+      "todo": "Выучить С++ за 21 день",
+      "userId": "42",
+      "completed": false,
+      "id": "MQmLzcjJGxQ"
+    }
+  ],
+  "news": [
+    {
+      "header": "дима билан шок",
+      "text": "сегодня умер дима билан",
+      "idex": "0",
+      "date": "19.06,2026",
+      "clickbait": true
+    },
+    {
+      "header": "опровержение",
+      "text": "билан опроверг слухи о своей смерти",
+      "idex": "1",
+      "date": "19.06.2026",
+      "clickbait": false
+    },
+    {
+      "header": "похороны",
+      "text": "сегодня похороны димы билана",
+      "idex": "2",
+      "date": "20.06.2026",
+      "clickbait": false
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
