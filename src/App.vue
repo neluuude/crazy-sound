@@ -1,49 +1,4 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import ReleaseCard from './components/ReleaseCard.vue'
-import ReleasePageWrap from './components/ReleasePageWrap.vue'
-
-const releaseArr = ref([])
-const newsArr = ref([])
-
-const fuck = ref('0')
-const selectedReleaseData = computed(() => {
-  return releaseArr.value.find((release) => release.idex == fuck.value)
-})
-const isReleaseOpen = ref(false)
-
-const fetchAlbums = () => {
-  fetch('http://localhost:8000/albums')
-    .then(response => response.json())
-    .then(data => releaseArr.value = data)
-    .catch(error => console.log(error.message))
-}
-
-function fetchNews() {
-  fetch('http://localhost:8000/news')
-    .then(response => response.json())
-    .then(data => newsArr.value = data)
-    .catch(error => console.log(error.message))
-}
-
-//закрываем кукис
-// function closeCookies() {
-//   modal.classList.add('disabled')
-// }
-
-function switchReleasePage(idex) {
-  isReleaseOpen.value = !isReleaseOpen.value
-  if (idex != undefined) {
-    fuck.value = idex
-  }
-}
-
-onMounted(() => {
-  fetchAlbums()
-  fetchNews()
-  //sendAuthData()
-})
-
 </script>
 
 <template>
@@ -66,51 +21,9 @@ onMounted(() => {
       <a href="" class="account-name"></a>
     </div>
   </header>
+  <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
 
-  <main>
-    <section class="welcome">
-      <h2>Музыка не знает границ. И МЫ ТОЖЕ</h2>
-
-      <p class="fresh-news">СВЕЖИЕ НОВОСТИ. ГОРЯЧИЕ РЕЛИЗЫ. ЭКСКЛЮЗИВНЫЕ МАТЕРИАЛЫ.</p>
-      <p>
-        Добро пожаловать на профессиональный curated источник музыкальных новостей.<br />
-        Мы тщательно отбираем самые значимые события индустрии, анализируем тренды и делимся с вами
-        только проверенной информацией. От mainstream до underground хитов - у нас есть новости для
-        каждого, кто ценит настоящую музыку.
-      </p>
-    </section>
-
-    <section class="news">
-      <h2>НОВОСТИ</h2>
-      <template v-for="news in newsArr.filter(news => news.clickbait == true)" :key="news.idex">
-        <div class="click-bait">
-          <h3>{{ news.header }}</h3>
-          <p>
-            {{ news.text }}, {{ news.date }}
-          </p>
-        </div>
-      </template>
-      <div class="sub-news">
-        <template v-for="news in newsArr.filter(news => news.clickbait != true)" :key="news.idex">
-          <div class="novosti">
-            <h3>{{ news.header }}</h3>
-            <p>
-              {{ news.text }}, {{ news.date }}
-            </p>
-          </div>
-        </template>
-      </div>
-    </section>
-    <section class="releases">
-      <h2>НЕДАВНИЕ РЕЛИЗЫ</h2>
-      <div class="release-wrap">
-        <!-- ТУТ ВЫВОДЯТСЯ КАРТОЧКИ РЕЛИЗОВ!!! ДЛЯ ОСОБО УМНЫХ!!!! МЫ ПИСАЛИ ТУТ ОДНУ, ПОТОМ УДАЛИЛИ!!!-->
-        <ReleaseCard v-for="release in releaseArr" :type="release.type" :artist="release.artist" :genre="release.genre"
-          :year="release.year" :img="release.img_src" :name="release.name" :idex="release.idex"
-          @expand-release-page="switchReleasePage" :key="release.idex" />
-      </div>
-    </section>
-  </main>
+  <RouterView />
 
   <div class="login-form-wrap">
     <div class="login-form">
@@ -124,11 +37,6 @@ onMounted(() => {
     </div>
   </div>
 
-  <ReleasePageWrap v-if="isReleaseOpen" @close-release-page="switchReleasePage" :type="selectedReleaseData.type"
-    :artist="selectedReleaseData.artist" :genre="selectedReleaseData.genre" :year="selectedReleaseData.year"
-    :img="selectedReleaseData.img_src" :name="selectedReleaseData.name" :description="selectedReleaseData.description"
-    :tracklist="selectedReleaseData.tracklist">
-  </ReleasePageWrap>
   <footer>
     <div class="about">
       <nav>
@@ -220,82 +128,6 @@ header .account-icon {
   font-family: 'Stalinist One', sans-serif;
   font-weight: 400;
   font-style: normal;
-}
-
-main {
-  padding: 0 150px;
-  background-color: rgb(255, 255, 255);
-}
-
-main h2 {
-  font-size: 40px;
-  font-family: 'Stalinist One', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-main p,
-h3 {
-  font-family: 'Cormorant Infant', serif;
-  font-optical-sizing: auto;
-  font-weight: 900;
-  font-style: normal;
-}
-
-main .welcome h2 {
-  font-size: 35px;
-}
-
-main .fresh-news {
-  font-size: 35px;
-}
-
-main .welcome p {
-  padding: 0 20px;
-  font-size: 30px;
-}
-
-main .click-bait {
-  padding: 0 20px;
-  margin-bottom: 50px;
-}
-
-main .click-bait h3 {
-  font-size: 35px;
-}
-
-main .click-bait p {
-  font-size: 30px;
-}
-
-main .sub-news {
-  display: flex;
-  gap: 10px;
-  /* position: fixed;
-    top: 100px; */
-}
-
-main .sub-news h3 {
-  font-size: 29px;
-}
-
-main .sub-news .novosti {
-  border-right: 2px solid black;
-
-  padding: 0 20px;
-}
-
-main .sub-news .novosti:last-child {
-  border-right: none;
-}
-
-main .novosti p {
-  font-size: 24px;
-}
-
-main .release-wrap {
-  display: flex;
-  gap: 70px;
 }
 
 .login-form-wrap {

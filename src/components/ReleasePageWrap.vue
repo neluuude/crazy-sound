@@ -25,20 +25,24 @@
         </div>
       </div>
       <div class="release-page-tracklist">
-        <a v-for="value in tracklist">{{ value }}</a>
+        <a v-for="value in tracklist" :key="value.id">{{ value }}</a>
       </div>
     </section>
   </div>
 </template>
 
 <script setup>
-defineProps(['type', 'artist', 'name', 'genre', 'year', 'img', 'idex', 'tracklist', 'description'])
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
-const emit = defineEmits(['closeReleasePage'])
 
-function closeReleasePage() {
-  emit('closeReleasePage')
-}
+
+const route = useRoute()
+
+
+onMounted(() => {
+  console.log(route.params.idex)
+})
 </script>
 
 <style scoped>
@@ -58,14 +62,14 @@ function closeReleasePage() {
   justify-content: space-between;
 }
 
-.release-page {
+/* .release-page {
   height: auto;
   width: 80%;
   background-color: rgb(123, 203, 212);
   border-style: solid;
   border-color: black;
   border-radius: 1%;
-}
+} */
 
 .golova {
   margin: 0 20px;
